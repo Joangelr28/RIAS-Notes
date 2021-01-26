@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1002688995546",
+    "project_id": "riaservices-e9c7c",
+    "storage_bucket": "riaservices-e9c7c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1002688995546:android:bccb13b7f22d01b60a45e3",
+        "android_client_info": {
+          "package_name": "com.wcapps.riaservices"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1002688995546-ie58innl7gcj69e96ta10kn29g3n3682.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBwEg9oKbm9KTxUrDGhVvnNQzI3lZfiCDI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1002688995546-ie58innl7gcj69e96ta10kn29g3n3682.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
