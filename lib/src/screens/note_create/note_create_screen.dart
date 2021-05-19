@@ -1,18 +1,17 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/models/documents/document.dart';
 import 'package:flutter_quill/widgets/controller.dart';
 import 'package:flutter_quill/widgets/editor.dart';
 import 'package:flutter_quill/widgets/toolbar.dart';
 import 'package:hive/hive.dart';
+import 'package:notes_app/src/database/note_database.dart';
 import 'package:notes_app/src/models/models.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:path/path.dart';
 
 class NoteCreateScreen extends StatefulWidget {
   final Note noteInEditing;
+  final int index;
 
-  NoteCreateScreen(this.noteInEditing);
+  NoteCreateScreen(this.index, this.noteInEditing);
 
   @override
   _NoteCreateScreenState createState() => _NoteCreateScreenState();
@@ -23,10 +22,12 @@ class _NoteCreateScreenState extends State<NoteCreateScreen> {
   QuillController? _controller;
   Box<Note> noteBox = Hive.box('notes');
   TextEditingController _titleController = TextEditingController();
+  NoteDB _noteDB = NoteDB();
 
   @override
   void initState() {
     super.initState();
+    _titleController.text = widget.noteInEditing.title!;
     _controller = QuillController(
         document: Document.fromJson(widget.noteInEditing.content!),
         selection: const TextSelection.collapsed(offset: 0));
@@ -39,26 +40,31 @@ class _NoteCreateScreenState extends State<NoteCreateScreen> {
         automaticallyImplyLeading: false,
         title: Text('NoteEditing'),
         actions: [
-          _buttonSave(),
+          _buttonSave(context),
         ],
       ),
-      body: Column(
-        children: [
-          _titleText(),
-          _editor(),
-          _toolBar(),
-        ],
+      body: Container(
+        child: Column(
+          children: [
+            _titleText(),
+            _editor(),
+            _toolBar(),
+          ],
+        ),
       ),
     );
   }
 
-  Widget _buttonSave() {
+  Widget _buttonSave(BuildContext context) {
     return ElevatedButton(
       onPressed: () {
-        noteBox.add(Note(
-            title: _titleController.value.text,
-            content: _controller!.document.toDelta().toJson()));
-        print(noteBox.length);
+        _noteDB.editNote(
+            Note(
+              title: _titleController.value.text,
+              content: _controller!.document.toDelta().toJson(),
+            ),
+            widget.index);
+        Navigator.pop(context);
       },
       child: Icon(Icons.save),
     );
@@ -67,6 +73,9 @@ class _NoteCreateScreenState extends State<NoteCreateScreen> {
   Widget _titleText() {
     return Container(
       child: TextField(
+        decoration: InputDecoration(
+          hintText: 'New Note',
+        ),
         controller: _titleController,
       ),
     );
@@ -80,7 +89,7 @@ class _NoteCreateScreenState extends State<NoteCreateScreen> {
         expands: false,
         scrollable: true,
         focusNode: _focusNode,
-        autoFocus: false,
+        autoFocus: true,
         controller: _controller!,
         readOnly: false, // change to true to be view only mode
       ),
@@ -91,17 +100,18 @@ class _NoteCreateScreenState extends State<NoteCreateScreen> {
     return Container(
       alignment: Alignment.bottomCenter,
       child: QuillToolbar.basic(
-        toolbarIconSize: 20,
+        toolbarIconSize: 24,
         controller: _controller!,
-        onImagePickCallback: _onImagePickCallback,
+        // onImagePickCallback: _onImagePickCallback,
       ),
     );
   }
 
-  Future<String> _onImagePickCallback(File file) async {
-    final appDocDir = await getApplicationDocumentsDirectory();
-    final copiedFile =
-        await file.copy('${appDocDir.path}/${basename(file.path)}');
-    return copiedFile.path.toString();
-  }
+  // Metodo para seleccionar y colocar imagenes (Arreglar para que guarde en HIVE)
+  // Future<String> _onImagePickCallback(File file) async {
+  //   final appDocDir = await getApplicationDocumentsDirectory();
+  //   final copiedFile =
+  //       await file.copy('${appDocDir.path}/${basename(file.path)}');
+  //   return copiedFile.path.toString();
+  // }
 }

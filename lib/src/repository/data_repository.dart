@@ -20,7 +20,6 @@ class DataRepository {
       Map<String, dynamic> data = jsonDecode(file.readAsStringSync());
       return data;
     } catch (e) {
-      print(e);
       return {'no': "Sirvio"};
     }
   }

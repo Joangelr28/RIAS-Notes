@@ -6,8 +6,9 @@ import 'package:notes_app/src/screens/note_create/note_create_screen.dart';
 import 'package:notes_app/src/screens/utility.dart';
 
 class NoteTile extends StatefulWidget {
+  final int index;
   final Note note;
-  NoteTile(this.note);
+  NoteTile(this.index, this.note);
   @override
   _NoteTileState createState() => _NoteTileState();
 }
@@ -24,8 +25,7 @@ class _NoteTileState extends State<NoteTile> {
     // tileColor = widget.note.color!;
 
     return GestureDetector(
-      onLongPress: () => _noteTapped(context),
-      onTap: () => _noteTapped(context),
+      onTap: () => _noteTapped(widget.index, context),
       child: Container(
         decoration: BoxDecoration(
             border: Border.all(color: CentralStation.borderColor),
@@ -37,10 +37,9 @@ class _NoteTileState extends State<NoteTile> {
     );
   }
 
-  void _noteTapped(BuildContext ctx) {
-    CentralStation.updateNeeded = false;
+  void _noteTapped(int i, BuildContext ctx) {
     Navigator.push(ctx,
-        MaterialPageRoute(builder: (ctx) => NoteCreateScreen(widget.note)));
+        MaterialPageRoute(builder: (ctx) => NoteCreateScreen(i, widget.note)));
   }
 
   Widget constructChild() {

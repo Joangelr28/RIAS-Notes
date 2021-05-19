@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:notes_app/src/blocs/login/login_bloc.dart';
 import 'package:notes_app/src/models/note.dart';
-import 'package:notes_app/src/screens/login/login_screen.dart';
+import 'package:notes_app/src/models/quick_note.dart';
+import 'package:notes_app/src/screens/home/home_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -13,9 +12,11 @@ void main() async {
 
   // Register adapters (if any)
   Hive.registerAdapter(NoteAdapter());
+  Hive.registerAdapter(QuickNoteAdapter());
 
   // Open Hive boxe for use throughout the app
   await Hive.openBox<Note>('notes');
+  await Hive.openBox<QuickNote>('quickNotes');
 
   runApp(MyApp());
 }
@@ -37,11 +38,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      // home: LoginScreen(),
-      home: BlocProvider<LoginBloc>(
-        create: (context) => LoginBloc(),
-        child: LoginScreen(),
-      ),
+      home: HomeScreen(),
     );
   }
 }
