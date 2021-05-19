@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:notes_app/src/database/note_database.dart';
 import 'package:notes_app/src/models/note.dart';
 import 'package:notes_app/src/models/quick_note.dart';
 import 'package:notes_app/src/screens/home/home_screen.dart';

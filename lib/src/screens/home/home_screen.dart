@@ -2,16 +2,13 @@ import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.da
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
-import 'package:notes_app/src/database/note_database.dart';
 import 'package:notes_app/src/models/models.dart';
 import 'package:notes_app/src/models/quick_note.dart';
-import 'package:notes_app/src/screens/components/bubble_bottom_bar.dart';
 import 'package:notes_app/src/screens/note_create/note_create_screen.dart';
 import 'package:notes_app/src/screens/note_create/quick_note_create.dart';
 import 'package:notes_app/src/screens/notes/notes_screen.dart';
 import 'package:notes_app/src/screens/quick_notes/quick_notes_grid.dart';
 import 'package:notes_app/src/screens/utility.dart';
-import '';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -115,38 +112,7 @@ class _HomeScreenState extends State<HomeScreen> {
         activeIndex: activeIndex,
         onTap: (index) => setState(() => activeIndex = index),
       ),
-      // bottomNavigationBar: BubbleBottomBar(
-      //   onTap: _changePage,
-      //   currentIndex: activeIndex,
-      //   elevation: 8,
-      //   borderRadius: BorderRadius.vertical(top: Radius.circular(15)),
-      //   fabLocation: BubbleBottomBarFabLocation.center,
-      //   items: <BubbleBottomBarItem>[
-      //     BubbleBottomBarItem(
-      //       activeIcon: Icon(Icons.note),
-      //       backgroundColor: Colors.redAccent,
-      //       icon: Icon(Icons.note, color: Colors.black),
-      //       title: Text('Notes'),
-      //     ),
-      //     BubbleBottomBarItem(
-      //       activeIcon: Icon(Icons.note_add_outlined),
-      //       backgroundColor: Colors.blueAccent,
-      //       icon: Icon(
-      //         Icons.note_add_outlined,
-      //         color: Colors.black,
-      //       ),
-      //       title: Text('Quick Notes'),
-      //     ),
-      //   ],
-      //   opacity: .2,
-      // ),
     );
-  }
-
-  void _changePage(index) {
-    setState(() {
-      activeIndex = index;
-    });
   }
 
   void _createNotes(BuildContext context) {
