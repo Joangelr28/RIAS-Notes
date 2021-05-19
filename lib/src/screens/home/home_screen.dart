@@ -1,5 +1,8 @@
+import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
+import 'package:notes_app/src/database/note_database.dart';
 import 'package:notes_app/src/models/models.dart';
 import 'package:notes_app/src/models/quick_note.dart';
 import 'package:notes_app/src/screens/components/bubble_bottom_bar.dart';
@@ -8,6 +11,7 @@ import 'package:notes_app/src/screens/note_create/quick_note_create.dart';
 import 'package:notes_app/src/screens/notes/notes_screen.dart';
 import 'package:notes_app/src/screens/quick_notes/quick_notes_grid.dart';
 import 'package:notes_app/src/screens/utility.dart';
+import '';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -17,6 +21,17 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   late int activeIndex;
   viewType? notesViewType;
+  final autoSizeGroup = AutoSizeGroup();
+
+  final pageList = <String>[
+    'Notes',
+    'Quick Notes',
+  ];
+
+  final iconList = <IconData>[
+    Icons.note,
+    Icons.note_add_outlined,
+  ];
 
   List<Widget> _widgetsOptions = <Widget>[
     NotesScreen(),
@@ -41,7 +56,7 @@ class _HomeScreenState extends State<HomeScreen> {
         backgroundColor: Colors.white,
         centerTitle: true,
         title: Text(
-          activeIndex == 0 ? "Notes" : 'QuickNotes',
+          pageList[activeIndex],
           style: TextStyle(color: Colors.black),
         ),
       ),
@@ -53,31 +68,69 @@ class _HomeScreenState extends State<HomeScreen> {
         onPressed: () => _createNotes(context),
         elevation: 2,
       ),
-      bottomNavigationBar: BubbleBottomBar(
-        onTap: _changePage,
-        currentIndex: activeIndex,
-        elevation: 8,
-        borderRadius: BorderRadius.vertical(top: Radius.circular(15)),
-        fabLocation: BubbleBottomBarFabLocation.center,
-        items: <BubbleBottomBarItem>[
-          BubbleBottomBarItem(
-            activeIcon: Icon(Icons.note),
-            backgroundColor: Colors.redAccent,
-            icon: Icon(Icons.note, color: Colors.black),
-            title: Text('Notes'),
-          ),
-          BubbleBottomBarItem(
-            activeIcon: Icon(Icons.note_add_outlined),
-            backgroundColor: Colors.blueAccent,
-            icon: Icon(
-              Icons.note_add_outlined,
-              color: Colors.black,
-            ),
-            title: Text('Quick Notes'),
-          ),
-        ],
-        opacity: .2,
+      bottomNavigationBar: AnimatedBottomNavigationBar.builder(
+        itemCount: iconList.length,
+        tabBuilder: (int index, bool isActive) {
+          final color = isActive ? Colors.orangeAccent : Colors.blueAccent;
+          return Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                iconList[index],
+                size: 24,
+                color: color,
+              ),
+              const SizedBox(
+                height: 4,
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8),
+                child: AutoSizeText(
+                  pageList[index],
+                  maxLines: 1,
+                  style: TextStyle(
+                    color: color,
+                  ),
+                  group: autoSizeGroup,
+                ),
+              ),
+            ],
+          );
+        },
+        splashSpeedInMilliseconds: 300,
+        notchSmoothness: NotchSmoothness.defaultEdge,
+        gapLocation: GapLocation.center,
+        rightCornerRadius: 32,
+        leftCornerRadius: 32,
+        activeIndex: activeIndex,
+        onTap: (index) => setState(() => activeIndex = index),
       ),
+      // bottomNavigationBar: BubbleBottomBar(
+      //   onTap: _changePage,
+      //   currentIndex: activeIndex,
+      //   elevation: 8,
+      //   borderRadius: BorderRadius.vertical(top: Radius.circular(15)),
+      //   fabLocation: BubbleBottomBarFabLocation.center,
+      //   items: <BubbleBottomBarItem>[
+      //     BubbleBottomBarItem(
+      //       activeIcon: Icon(Icons.note),
+      //       backgroundColor: Colors.redAccent,
+      //       icon: Icon(Icons.note, color: Colors.black),
+      //       title: Text('Notes'),
+      //     ),
+      //     BubbleBottomBarItem(
+      //       activeIcon: Icon(Icons.note_add_outlined),
+      //       backgroundColor: Colors.blueAccent,
+      //       icon: Icon(
+      //         Icons.note_add_outlined,
+      //         color: Colors.black,
+      //       ),
+      //       title: Text('Quick Notes'),
+      //     ),
+      //   ],
+      //   opacity: .2,
+      // ),
     );
   }
 

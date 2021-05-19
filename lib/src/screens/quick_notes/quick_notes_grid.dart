@@ -3,7 +3,7 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:hive/hive.dart';
 import 'package:notes_app/src/models/quick_note.dart';
 import 'package:notes_app/src/screens/notes/notes_screen.dart';
-import 'package:notes_app/src/screens/quick_notes/quick_note_tile.dart';
+import 'package:notes_app/src/screens/quick_notes/quick_notes_tile.dart';
 
 class QuickNotesGrid extends StatefulWidget {
   @override

@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/models/documents/document.dart';
 import 'package:flutter_quill/widgets/controller.dart';
@@ -40,6 +41,7 @@ class _NoteCreateScreenState extends State<NoteCreateScreen> {
         automaticallyImplyLeading: false,
         title: Text('NoteEditing'),
         actions: [
+          _buttonDelete(context),
           _buttonSave(context),
         ],
       ),
@@ -67,6 +69,13 @@ class _NoteCreateScreenState extends State<NoteCreateScreen> {
         Navigator.pop(context);
       },
       child: Icon(Icons.check),
+    );
+  }
+
+  Widget _buttonDelete(BuildContext context) {
+    return ElevatedButton(
+      onPressed: _confirmationDialog,
+      child: Icon(Icons.close),
     );
   }
 
@@ -114,4 +123,52 @@ class _NoteCreateScreenState extends State<NoteCreateScreen> {
   //       await file.copy('${appDocDir.path}/${basename(file.path)}');
   //   return copiedFile.path.toString();
   // }
+
+  void _confirmationDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+          backgroundColor: Colors.white,
+          child: Container(
+            padding: EdgeInsets.fromLTRB(30, 25, 30, 25),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  'Desea Eliminar la Nota?',
+                  style: TextStyle(
+                    fontSize: 32,
+                  ),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    ElevatedButton(
+                      onPressed: () {
+                        _noteDB.deleteNote(widget.index);
+                        Navigator.pop(context);
+                      },
+                      child: Text('Si'),
+                    ),
+                    SizedBox(
+                      width: 20,
+                    ),
+                    ElevatedButton(
+                      onPressed: () => Navigator.pop(context),
+                      child: Text('No'),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
 }

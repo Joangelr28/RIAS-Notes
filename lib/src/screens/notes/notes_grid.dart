@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:hive/hive.dart';
 import 'package:notes_app/src/models/models.dart';
-import 'package:notes_app/src/screens/notes/note_tile.dart';
+import 'package:notes_app/src/screens/notes/notes_tile.dart';
 import 'package:notes_app/src/screens/notes/notes_screen.dart';
 
 class NotesGrid extends StatefulWidget {

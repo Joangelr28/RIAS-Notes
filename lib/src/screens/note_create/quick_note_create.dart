@@ -38,6 +38,7 @@ class _QuickNoteCreateScreenState extends State<QuickNoteCreateScreen> {
         automaticallyImplyLeading: false,
         title: Text('NoteEditing'),
         actions: [
+          _buttonDelete(context),
           _buttonSave(context),
         ],
       ),
@@ -63,6 +64,13 @@ class _QuickNoteCreateScreenState extends State<QuickNoteCreateScreen> {
         Navigator.pop(context);
       },
       child: Icon(Icons.check),
+    );
+  }
+
+  Widget _buttonDelete(BuildContext context) {
+    return ElevatedButton(
+      onPressed: _confirmationDialog,
+      child: Icon(Icons.close),
     );
   }
 
@@ -97,6 +105,54 @@ class _QuickNoteCreateScreenState extends State<QuickNoteCreateScreen> {
         toolbarIconSize: 26,
         controller: _controller!,
       ),
+    );
+  }
+
+  void _confirmationDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+          backgroundColor: Colors.white,
+          child: Container(
+            padding: EdgeInsets.fromLTRB(30, 25, 30, 25),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  'Desea Eliminar la Nota?',
+                  style: TextStyle(
+                    fontSize: 32,
+                  ),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    ElevatedButton(
+                      onPressed: () {
+                        _quickNoteDB.deleteNote(widget.index);
+                        Navigator.pop(context);
+                      },
+                      child: Text('Si'),
+                    ),
+                    SizedBox(
+                      width: 20,
+                    ),
+                    ElevatedButton(
+                      onPressed: () => Navigator.pop(context),
+                      child: Text('No'),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 }

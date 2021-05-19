@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'note_grid.dart';
+import 'notes_grid.dart';
 
 class NotesScreen extends StatefulWidget {
   @override

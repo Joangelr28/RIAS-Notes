@@ -2,29 +2,39 @@ import 'package:hive/hive.dart';
 import 'package:notes_app/src/models/note.dart';
 
 class NoteDB {
-  // Nombre del Box
+  // Box name
   String _boxName = 'notes';
 
-  // Lista de Notas
-  List<Note> _notes = [];
+  // Notes list
+  List<Note> notes = [];
 
-  Note getNote(index) {
-    return _notes[index];
-  }
-
+  // Get Notes List
   void getNotes() async {
     var box = await Hive.openBox<Note>(_boxName);
-    _notes = box.values.toList();
+    notes = box.values.toList();
   }
 
+  // Create Note
   void addNote(Note newNote) async {
     var box = await Hive.openBox<Note>(_boxName);
-
     await box.add(newNote);
   }
 
+  // Read Note
+  Note getNote(index) {
+    getNotes();
+    return notes[index];
+  }
+
+  // Update Note
   void editNote(Note note, int noteKey) async {
     var box = await Hive.openBox<Note>(_boxName);
     await box.put(noteKey, note);
+  }
+
+  // Delete Note
+  void deleteNote(int index) async {
+    var box = await Hive.openBox<Note>(_boxName);
+    await box.deleteAt(index);
   }
 }
