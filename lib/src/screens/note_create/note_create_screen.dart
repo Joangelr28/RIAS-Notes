@@ -66,7 +66,7 @@ class _NoteCreateScreenState extends State<NoteCreateScreen> {
             widget.index);
         Navigator.pop(context);
       },
-      child: Icon(Icons.save),
+      child: Icon(Icons.check),
     );
   }
 

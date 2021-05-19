@@ -62,7 +62,7 @@ class _QuickNoteCreateScreenState extends State<QuickNoteCreateScreen> {
             widget.index);
         Navigator.pop(context);
       },
-      child: Icon(Icons.save),
+      child: Icon(Icons.check),
     );
   }
 
