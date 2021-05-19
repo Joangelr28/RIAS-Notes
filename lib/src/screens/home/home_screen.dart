@@ -23,12 +23,12 @@ class _HomeScreenState extends State<HomeScreen> {
   viewType? notesViewType;
   final autoSizeGroup = AutoSizeGroup();
 
-  final pageList = <String>[
+  List pageList = <String>[
     'Notes',
     'Quick Notes',
   ];
 
-  final iconList = <IconData>[
+  List iconList = <IconData>[
     Icons.note,
     Icons.note_add_outlined,
   ];
@@ -63,6 +63,8 @@ class _HomeScreenState extends State<HomeScreen> {
       body: _widgetsOptions.elementAt(activeIndex),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
+        backgroundColor:
+            activeIndex == 0 ? Colors.blueAccent : Colors.orangeAccent,
         tooltip: "Center Button",
         child: Icon(Icons.add),
         onPressed: () => _createNotes(context),
@@ -71,7 +73,14 @@ class _HomeScreenState extends State<HomeScreen> {
       bottomNavigationBar: AnimatedBottomNavigationBar.builder(
         itemCount: iconList.length,
         tabBuilder: (int index, bool isActive) {
-          final color = isActive ? Colors.orangeAccent : Colors.blueAccent;
+          Color color;
+          if (activeIndex == 0 && isActive) {
+            color = Colors.blueAccent;
+          } else if (activeIndex == 1 && isActive) {
+            color = Colors.orangeAccent;
+          } else {
+            color = Colors.black87;
+          }
           return Column(
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.center,
